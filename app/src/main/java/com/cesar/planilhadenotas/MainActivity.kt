@@ -11,8 +11,28 @@ import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_result.*
 import java.io.Console
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+
+    private var average1: Double = 0.0
+    private var average1Rounded: Int = 0
+
+    private var average2: Double = 0.0
+    private var average2Rounded: Int = 0
+
+    private var average3: Double = 0.0
+    private var average3Rounded: Int = 0
+
+    private var average4: Double = 0.0
+    private var average4Rounded: Int = 0
+
+
+    private var result = ""
+
+    private var averageTotal: Double = 0.0
+    private var averageTotalRounded: Int = 0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,10 +128,30 @@ class MainActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
         // Display the alert dialog on app interface
         dialog.show()
 
-        dialog.textView1AverageValue.text = "5555"
+        initResultDialog(dialog)
+
     }
 
+    private fun initResultDialog(dialog: AlertDialog) {
 
+        dialog.textView1AverageValue.text = average1.toString()
+        dialog.textView1AverageRoundedValue.text = average1Rounded.toString()
+
+        dialog.textView2AverageValue.text = average2.toString()
+        dialog.textView2AverageRoundedValue.text = average2Rounded.toString()
+
+        dialog.textView3AverageValue.text = average3.toString()
+        dialog.textView3AverageRoundedValue.text = average3Rounded.toString()
+
+        dialog.textView4AverageValue.text = average4.toString()
+        dialog.textView4AverageRoundedValue.text = average4Rounded.toString()
+
+        dialog.textViewAverageTotalValue.text = averageTotal.toString()
+        dialog.textViewAverageTotalRoundedValue.text = averageTotalRounded.toString()
+
+        dialog.textViewResult.text = result
+
+    }
 
     private fun isRecovery(value: Boolean, average: Int) {
 
@@ -162,44 +202,164 @@ class MainActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
     override fun onClick(view: View) {
 
         when(view.id) {
-            R.id.buttonCalculate -> createDialogCalculate()
+            R.id.buttonCalculate -> {
+                cleanVariablesCalculate()
+                calculate()
+                createDialogCalculate()
+
+            }
             R.id.buttonClean -> createDialogClean()
         }
 
     }
 
+    private fun cleanVariablesCalculate() {
+
+        average1 = 0.0
+        average1Rounded = 0
+
+        average2 = 0.0
+        average2Rounded = 0
+
+        average3 = 0.0
+        average3Rounded = 0
+
+        average4 = 0.0
+        average4Rounded = 0
 
 
+        result = ""
+
+        averageTotal = 0.0
+        averageTotalRounded = 0
+
+
+    }
+
+    private fun calculate() {
+        calculateFirstAverage()
+        calculateSecondAverage()
+        calculateThirdAverage()
+        calculateFourthAverage()
+        calculateAverageTotal()
+    }
 
     private fun calculateFirstAverage() {
 
         if (editText1Average1Note.text.isNotEmpty() &&
             editText1Average2Note.text.isNotEmpty()) {
 
+            average1 = ( editText1Average1Note.text.toString().toDouble() + editText1Average2Note.text.toString().toDouble() ) / 2
+            average1Rounded = average1.roundToInt()
 
-            // calcula media
 
         } else if(editText1AverageRecoveryNote.text.isNotEmpty()) {
 
-            // calcula media com recuperação
+            average1 = editText1AverageRecoveryNote.text.toString().toDouble()
+            average1Rounded = average1.roundToInt()
 
         } else {
 
-            // despresa valor
+            average1 = 0.0
+            average1Rounded = average1.roundToInt()
 
         }
 
-
-
+        averageTotal += average1
 
     }
 
 
+    private fun calculateSecondAverage() {
+
+        if (editText2Average1Note.text.isNotEmpty() &&
+            editText2Average2Note.text.isNotEmpty()) {
+
+            average2 = ( editText2Average1Note.text.toString().toDouble() + editText2Average2Note.text.toString().toDouble() ) / 2
+            average2Rounded = average2.roundToInt()
 
 
+        } else if(editText2AverageRecoveryNote.text.isNotEmpty()) {
+
+            average2 = editText2AverageRecoveryNote.text.toString().toDouble()
+            average2Rounded = average2.roundToInt()
+
+        } else {
+
+            average2 = 0.0
+            average2Rounded = average2.roundToInt()
+
+        }
+
+        averageTotal += average2
+
+    }
+
+    private fun calculateThirdAverage() {
+
+        if (editText3Average1Note.text.isNotEmpty() &&
+            editText3Average2Note.text.isNotEmpty()) {
+
+            average3 = ( editText3Average1Note.text.toString().toDouble() + editText3Average2Note.text.toString().toDouble() ) / 2
+            average3Rounded = average3.roundToInt()
 
 
+        } else if(editText3AverageRecoveryNote.text.isNotEmpty()) {
 
+            average3 = editText3AverageRecoveryNote.text.toString().toDouble()
+            average3Rounded = average3.roundToInt()
+
+        } else {
+
+            average3 = 0.0
+            average3Rounded = average3.roundToInt()
+
+        }
+
+        averageTotal += average3
+
+    }
+
+    private fun calculateFourthAverage() {
+
+        if (editText4Average1Note.text.isNotEmpty() &&
+            editText4Average2Note.text.isNotEmpty()) {
+
+            average4 = ( editText4Average1Note.text.toString().toDouble() + editText4Average2Note.text.toString().toDouble() ) / 2
+            average4Rounded = average4.roundToInt()
+
+
+        } else if(editText4AverageRecoveryNote.text.isNotEmpty()) {
+
+            average4 = editText4AverageRecoveryNote.text.toString().toDouble()
+            average4Rounded = average4.roundToInt()
+
+        } else {
+
+            average4 = 0.0
+            average4Rounded = average4.roundToInt()
+
+        }
+
+        averageTotal += average4
+
+    }
+
+    private fun calculateAverageTotal() {
+
+        averageTotal = (averageTotal / 4)
+        averageTotalRounded = averageTotal.roundToInt()
+
+        if (averageTotal < 4) {
+            result = "Reprovado"
+        } else if (averageTotal >= 7) {
+            result = "Aprovado"
+
+        } else {
+            result = "Final"
+        }
+
+    }
 
 
 
